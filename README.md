@@ -1,236 +1,198 @@
-<![CDATA[# 🩸 ThalCare — Alpha Thalassemia Detection System
+# ThalCare: Alpha Thalassemia Anomaly Detection System
 
-> AI-powered anomaly detection platform for differentiating Alpha Thalassemia subtypes from overlapping hematological conditions using a 5-model ensemble strategy.
+ThalCare is a clinical decision support system designed to detect and differentiate Alpha Thalassemia conditions from overlapping hematological disorders using routine Complete Blood Count (CBC) parameters and hemoglobin electrophoresis data.
 
-![ThalCare Banner](https://github.com/user-attachments/assets/fdaeb7e4-cb6e-46bf-832b-489439476cdd)
+Screening for Alpha Thalassemia (including Alpha Trait and Silent Carrier states) frequently presents diagnostic difficulties due to borderline indices that overlap with Iron Deficiency Anemia and non-specific infections. ThalCare processes standard laboratory panels, calculates derived clinical indices, and classifies patient profiles across five diagnostic categories using an ensemble of deep learning and classical machine learning models coupled with a heuristic verification layer.
 
----
+## Overview
 
-## 📋 Overview
+The system classifies patient hematological profiles into five distinct categories:
 
-**ThalCare** is a full-stack clinical decision support system designed to detect and differentiate between closely overlapping hematological disorders:
+- Alpha Trait
+- Silent Carrier
+- Iron Deficiency
+- Infection / Other
+- Normal
 
-- **Alpha Trait**
-- **Silent Carrier**
-- **Iron Deficiency**
-- **Infection / Other**
-- **Normal**
+Predictions are generated through a multi-model ensemble pipeline followed by clinical rule-based checks to ensure biological plausibility before results are presented to clinicians.
 
-### Key Innovations
+## Key Features
 
-- **Overlapping Disease Detection** — Differentiates biological conditions with near-identical hematological profiles
-- **5-Model Ensemble Strategy** — Combines Hybrid CNN-Transformer, 1-D CNN, Transformer, SVM, and Random Forest models
-- **Probability & Confidence Voting** — Results determined through weighted probability and confidence-based ensemble voting
-- **Heuristic Guard Layer** — Secondary verification layer grounded in hematological philosophy to validate AI predictions
+- Multi-Model Ensemble: Combines predictions from five distinct model architectures (Hybrid CNN-Transformer, 1D CNN, Transformer, Support Vector Machine, and Random Forest) using probability and confidence-weighted voting.
+- Automatic Index Derivation: Calculates clinically recognized diagnostic indices (Mentzer Index and Srivastava Index) directly from submitted laboratory values.
+- Heuristic Guard Layer: Applies rule-based hematological constraints to model outputs to prevent biologically inconsistent classifications.
+- Role-Based Access Control: Dedicated interfaces and workflows tailored for Doctors, Laboratory Technicians, and System Administrators.
+- Audit Logging: Tracks test submissions, prediction history, and administrative activity within the application.
 
----
+## Technologies Used
 
-## 🏗️ Architecture
-
-```
-ThalCare-main/
-├── frontend/          # React + Vite SPA (TailwindCSS)
-│   ├── src/
-│   │   ├── components/    # Reusable UI components (auth, admin, doctor, lab-tech, shared)
-│   │   ├── pages/         # Role-based page views
-│   │   ├── context/       # Auth context provider
-│   │   ├── hooks/         # Custom React hooks
-│   │   ├── api/           # Axios API client
-│   │   ├── constants/     # App-wide constants
-│   │   ├── layouts/       # Dashboard layout
-│   │   └── utils/         # Utility functions
-│   └── ALPHA_THAL_DATA/   # Dataset download instructions
-│
-├── backend/           # FastAPI REST API
-│   ├── main.py            # Application entry point
-│   ├── models.py          # SQLAlchemy ORM models
-│   ├── schemas.py         # Pydantic validation schemas
-│   ├── database.py        # Database engine configuration
-│   ├── auth_handler.py    # JWT authentication handler
-│   └── routers/           # API route modules
-│       ├── auth.py        # Authentication endpoints
-│       ├── patients.py    # Patient management
-│       ├── tests.py       # Lab test management
-│       ├── predictions.py # ML prediction engine
-│       ├── admin.py       # Admin operations
-│       └── analytics.py   # Analytics & reporting
-│
-└── Brain/             # ML Inference Engine
-    ├── config.py          # Model hyperparameters & paths
-    ├── model.py           # Neural network architecture definitions
-    ├── preprocessing.py   # Feature engineering & data preprocessing
-    ├── inference.py       # Multi-model inference pipeline
-    ├── models/            # Trained model weights (.pth, .pkl)
-    └── parameters/        # Scalers, metadata, audit results
-```
-
----
-
-## 🛠️ Technology Stack
-
-### Frontend
-| Technology | Purpose |
-|---|---|
-| **React 18** | UI framework |
-| **Vite** | Build tool & dev server |
-| **TailwindCSS 3** | Utility-first CSS |
-| **React Router v6** | Client-side routing |
-| **Axios** | HTTP client |
-| **Recharts** | Data visualization |
-| **React Hook Form + Zod** | Form handling & validation |
-| **Lucide React** | Icon library |
-| **React Hot Toast** | Notifications |
-| **React Dropzone** | File upload |
+### Machine Learning and Data Processing
+- PyTorch: Neural network architectures (Hybrid CNN-Transformer, 1D CNN, Transformer)
+- scikit-learn: Support Vector Machine and Random Forest classifiers
+- joblib: Model serialization and feature scaler management
+- NumPy and Pandas: Numerical operations and data handling
 
 ### Backend
-| Technology | Purpose |
-|---|---|
-| **FastAPI** | REST API framework |
-| **Uvicorn** | ASGI server |
-| **SQLAlchemy 2** | ORM |
-| **Alembic** | Database migrations |
-| **Pydantic v2** | Data validation |
-| **python-jose** | JWT tokens |
-| **Passlib (bcrypt)** | Password hashing |
+- FastAPI: Asynchronous REST API framework
+- Uvicorn: ASGI server implementation
+- SQLAlchemy 2.0: Object-relational mapping
+- Pydantic v2: Request validation and data serialization
+- SQLite: Relational database engine
+- python-jose and Passlib: JWT authentication and password hashing
 
-### Machine Learning (Brain)
-| Model | Type |
-|---|---|
-| **Hybrid CNN-Transformer** | Deep Learning (PyTorch) |
-| **1-D CNN** | Deep Learning (PyTorch) |
-| **Transformer** | Deep Learning (PyTorch) |
-| **SVM** | Classical ML (scikit-learn) |
-| **Random Forest** | Classical ML (scikit-learn) |
+### Frontend
+- React 18: Single-page application framework
+- Vite: Build tool and development server
+- Tailwind CSS: Application styling and layout
+- React Router v6: Client-side routing
+- Axios: HTTP client for API communication
+- Recharts: Diagnostic data visualization
+- React Hook Form and Zod: Form state management and schema validation
+- Lucide React: Icon components
 
----
+## Project Structure
 
-## 🚀 Getting Started
+```
+.
+├── Brain/
+│   ├── config.py               # Hyperparameters, label mappings, and directory paths
+│   ├── model.py                # PyTorch architectures (CNN1D, Transformer, Hybrid)
+│   ├── preprocessing.py        # Feature scaling and preprocessing pipelines
+│   ├── inference.py            # DiagnosticEngine class and ensemble voting logic
+│   ├── models/                 # Serialized model weights (.pth, .pkl)
+│   └── parameters/             # Feature scalers and configuration artifacts
+├── backend/
+│   ├── main.py                 # FastAPI application entry point and middleware
+│   ├── database.py             # Database engine and session configuration
+│   ├── models.py               # SQLAlchemy database models
+│   ├── schemas.py              # Pydantic request and response schemas
+│   ├── auth_handler.py         # JWT authentication logic
+│   ├── requirements.txt        # Backend Python dependencies
+│   ├── start_backend.bat       # Startup script for Windows
+│   └── routers/
+│       ├── auth.py             # User authentication and token management
+│       ├── patients.py         # Patient record management
+│       ├── tests.py            # Laboratory test submissions
+│       ├── predictions.py      # Diagnostic prediction endpoints
+│       ├── analytics.py        # System reporting and diagnostics metrics
+│       └── admin.py            # User administration and audit logs
+├── frontend/
+│   ├── index.html              # HTML document template
+│   ├── package.json            # Node.js dependencies and scripts
+│   ├── vite.config.js          # Vite build configuration
+│   ├── tailwind.config.js      # Tailwind CSS configuration
+│   ├── start_frontend.bat      # Startup script for Windows
+│   ├── src/
+│   │   ├── App.jsx             # Main router and route definitions
+│   │   ├── main.jsx            # React root component mounting
+│   │   ├── api/                # API client configuration and endpoints
+│   │   ├── components/         # Reusable UI components
+│   │   ├── context/            # Application state and authentication context
+│   │   ├── layouts/            # Dashboard layout components
+│   │   ├── pages/              # Role-specific page views
+│   │   └── utils/              # Client-side utility functions
+│   └── ALPHA_THAL_DATA/        # Dataset sources and download instructions
+├── .gitignore                  # Git exclusion rules
+└── README.md                   # Project documentation
+```
+
+## How It Works
+
+1. Laboratory Parameter Input: The system accepts fifteen standard Complete Blood Count and hemoglobin electrophoresis values: Sex, Hemoglobin (Hb), Red Blood Cell count (RBC), Packed Cell Volume (PCV), Mean Corpuscular Volume (MCV), Mean Corpuscular Hemoglobin (MCH), Mean Corpuscular Hemoglobin Concentration (MCHC), Red Cell Distribution Width (RDW), White Blood Cell count (WBC), Neutrophils, Lymphocytes, Platelet count (PLT), HbA, HbA2, and HbF.
+2. Index Computation: Two diagnostic ratios are derived automatically:
+   - Mentzer Index = MCV / RBC
+   - Srivastava Index = MCH / RBC
+3. Feature Scaling: The complete 17-feature vector is scaled using the inference scaler (`inference_scaler.joblib`).
+4. Ensemble Inference:
+   - Deep learning models (Hybrid CNN-Transformer, 1D CNN, Transformer) and classical classifiers (SVM, Random Forest) compute probability distributions across the five target classes.
+   - Predictions are synthesized using confidence-weighted ensemble voting.
+5. Heuristic Validation: The predicted classification is evaluated against established hematological guidelines to verify that indices match expected clinical patterns.
+
+## Installation
 
 ### Prerequisites
 
-- **Node.js** ≥ 18.x
-- **Python** ≥ 3.10
-- **pip** (Python package manager)
-- **Git**
+- Python 3.10 or higher
+- Node.js 18 or higher
+- Git
 
-### 1. Clone the Repository
+### Clone Repository
 
 ```bash
-git clone https://github.com/<your-username>/thelked-main.git
+git clone https://github.com/abdullahse2211/thelked-main.git
 cd thelked-main
 ```
 
-### 2. Backend Setup
+### Backend Setup
 
 ```bash
 cd backend
-
-# Create and activate virtual environment
 python -m venv venv
+
 # Windows
 venv\Scripts\activate
-# macOS/Linux
+
+# Linux / macOS
 source venv/bin/activate
 
-# Install dependencies
 pip install -r requirements.txt
-
-# Run the backend server
-uvicorn main:app --reload --port 5000
 ```
 
-The API will be available at `http://localhost:5000`.
+### Frontend Setup
 
-### 3. Frontend Setup
+```bash
+cd ../frontend
+npm install
+```
+
+## Configuration
+
+### Frontend Configuration
+
+Copy the example environment file and adjust if necessary:
 
 ```bash
 cd frontend
-
-# Install dependencies
-npm install
-
-# Copy environment configuration
 cp .env.example .env
+```
 
-# Start the development server
+Default environment variables:
+
+```env
+VITE_API_BASE_URL=http://localhost:8000/api/v1
+VITE_APP_NAME=ThalCare
+```
+
+### Database
+
+The SQLite database (`thalcare.db`) is automatically initialized and migrated on the first run of the backend service.
+
+## How to Run
+
+### Start the Backend
+
+From the `backend` directory with the virtual environment activated:
+
+```bash
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+The interactive API documentation is accessible at:
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
+### Start the Frontend
+
+From the `frontend` directory:
+
+```bash
 npm run dev
 ```
 
-The application will be available at `http://localhost:5173`.
+The web application will be accessible at: http://localhost:5173
 
----
+### Windows Batch Scripts
 
-## 👥 User Roles
-
-ThalCare supports three distinct user roles with role-based access control:
-
-| Role | Capabilities |
-|---|---|
-| **Doctor** | Dashboard, patient management, view predictions & analytics, order tests |
-| **Lab Technician** | Dashboard, patient registration, test entry, file upload, manage lab tests |
-| **Admin** | Dashboard, user management, audit logs, system configuration |
-
----
-
-## 🔌 API Endpoints
-
-| Module | Base Path | Description |
-|---|---|---|
-| **Auth** | `/api/v1/auth` | Login, registration, token refresh |
-| **Patients** | `/api/v1/patients` | CRUD operations for patient records |
-| **Tests** | `/api/v1/tests` | Lab test management |
-| **Predictions** | `/api/v1/predictions` | ML model inference |
-| **Admin** | `/api/v1/admin` | User management, audit logs |
-| **Analytics** | `/api/v1/analytics` | Reporting & statistics |
-| **Health** | `/api/v1/health` | System health check |
-
----
-
-## 🧪 ML Pipeline
-
-The prediction engine uses a **Chaos Protocol** training strategy for robustness:
-
-1. **Gaussian Noise Injection** (σ = 0.60) across all numerical features
-2. **Feature Dropout** (10%) on select columns (`rdw`, `hba2`, `Mentzer_Index`)
-3. **Biological Mimicry** — Extra noise on `hb` and `rbc` to blur Infection vs Iron Deficiency boundaries
-4. **Label Noise** (12%) — Random label swaps between confusing classes
-
-Predictions are generated through **confidence-weighted ensemble voting** across all 5 models, followed by a **heuristic guard layer** for clinical validation.
-
----
-
-## 📁 Datasets
-
-The system was trained on multiple publicly available hematological datasets. See [`frontend/ALPHA_THAL_DATA/download_instructions.md`](frontend/ALPHA_THAL_DATA/download_instructions.md) for download links and details.
-
----
-
-## 🔒 Environment Variables
-
-Copy the example environment file and configure:
-
-```bash
-cp frontend/.env.example frontend/.env
-```
-
-Key variables:
-
-| Variable | Description | Default |
-|---|---|---|
-| `VITE_API_BASE_URL` | Backend API URL | `http://localhost:5000/api/v1` |
-| `VITE_APP_ENV` | Environment mode | `development` |
-| `VITE_ENABLE_ML_PREDICTIONS` | Enable ML engine | `true` |
-| `VITE_MAX_FILE_SIZE` | Max upload size (bytes) | `10485760` |
-
----
-
-## 📄 License
-
-This project is developed as a Final Year Project (FYP). All rights reserved.
-
----
-
-## 🤝 Contributing
-
-This is a personal academic project. For inquiries, please contact the project owner.
-]]>
+Convenience scripts are provided to run each service directly on Windows:
+- Backend: `backend/start_backend.bat`
+- Frontend: `frontend/start_frontend.bat`
