@@ -119,8 +119,8 @@ Predictions are generated through a multi-model ensemble pipeline followed by cl
 ### Clone Repository
 
 ```bash
-git clone https://github.com/abdullahse2211/thelked-main.git
-cd thelked-main
+git clone https://github.com/abdullahse2211/ThalCare.git
+cd ThalCare
 ```
 
 ### Backend Setup
