@@ -1,0 +1,11 @@
+{
+  "svm": {
+    "accuracy": 91.4
+  },
+  "random_forest": {
+    "accuracy": 90.1
+  },
+  "logistic_regression": {
+    "accuracy": 89.1
+  }
+}

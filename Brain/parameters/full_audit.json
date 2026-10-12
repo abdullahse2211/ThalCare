@@ -1,0 +1,74 @@
+{
+  "1D CNN": {
+    "42": {
+      "balanced_acc": 90.1,
+      "f1_weighted": 0.901
+    },
+    "123": {
+      "balanced_acc": 91.05,
+      "f1_weighted": 0.9105
+    },
+    "999": {
+      "balanced_acc": 89.31,
+      "f1_weighted": 0.8931
+    },
+    "summary": {
+      "mean_accuracy": 90.16,
+      "std_dev": 0.71,
+      "mean_f1": 0.9015,
+      "seeds": [
+        42,
+        123,
+        999
+      ]
+    }
+  },
+  "Transformer": {
+    "42": {
+      "balanced_acc": 88.15,
+      "f1_weighted": 0.8813
+    },
+    "123": {
+      "balanced_acc": 88.85,
+      "f1_weighted": 0.8884
+    },
+    "999": {
+      "balanced_acc": 87.69,
+      "f1_weighted": 0.8775
+    },
+    "summary": {
+      "mean_accuracy": 88.23,
+      "std_dev": 0.48,
+      "mean_f1": 0.8824,
+      "seeds": [
+        42,
+        123,
+        999
+      ]
+    }
+  },
+  "Hybrid CNN-Transformer": {
+    "42": {
+      "balanced_acc": 89.75,
+      "f1_weighted": 0.8976
+    },
+    "123": {
+      "balanced_acc": 90.45,
+      "f1_weighted": 0.9044
+    },
+    "999": {
+      "balanced_acc": 89.64,
+      "f1_weighted": 0.8959
+    },
+    "summary": {
+      "mean_accuracy": 89.95,
+      "std_dev": 0.36,
+      "mean_f1": 0.8993,
+      "seeds": [
+        42,
+        123,
+        999
+      ]
+    }
+  }
+}

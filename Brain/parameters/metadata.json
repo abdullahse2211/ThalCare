@@ -1,0 +1,52 @@
+{
+  "models": {
+    "hybrid_cnn_transformer": {
+      "mean_accuracy": 89.95,
+      "std_dev": 0.36,
+      "mean_f1": 0.8993,
+      "seeds": [
+        42,
+        123,
+        999
+      ]
+    },
+    "cnn_1d": {
+      "mean_accuracy": 90.16,
+      "std_dev": 0.71,
+      "mean_f1": 0.9015,
+      "seeds": [
+        42,
+        123,
+        999
+      ]
+    },
+    "transformer": {
+      "mean_accuracy": 88.23,
+      "std_dev": 0.48,
+      "mean_f1": 0.8824,
+      "seeds": [
+        42,
+        123,
+        999
+      ]
+    },
+    "svm": {
+      "accuracy": 91.4
+    },
+    "random_forest": {
+      "accuracy": 90.1
+    },
+    "logistic_regression": {
+      "accuracy": 89.1
+    }
+  },
+  "label_map": {
+    "0": "Alpha Trait",
+    "1": "Infection/Other",
+    "2": "Iron Deficiency",
+    "3": "Normal",
+    "4": "Silent Carrier"
+  },
+  "phase": "Phase 5 Chaos Protocol",
+  "overall_f1_target": "86-89%"
+}
